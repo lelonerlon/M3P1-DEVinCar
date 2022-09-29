@@ -1,0 +1,50 @@
+﻿using System.Security.Cryptography.X509Certificates;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using DEVinCar.Domain.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace DEVinCar.Infra.Datas.Mappings
+{
+    public class SaleCarMap : IEntityTypeConfiguration<SaleCars>
+    {
+        public void Configure(EntityTypeBuilder<SaleCars> builder)
+        {
+            modelBuilder.Entity<SaleCars>(builder =>
+        {
+            builder.ToTable("SaleCars");
+
+            builder.HasKey(sc => sc.Id);
+            
+            builder.Property(sc => sc.Id)
+                   .HasColumnType("int");
+
+            builder.Property(sc => sc.SaleId)
+                    .HasColumnType("int")
+                    .IsRequired();
+
+            builder.Property(sc => sc.CarId)
+                    .HasColumnType("int")
+                    .IsRequired();
+
+            builder.Property(sc => sc.UnitPrice)
+                    .HasPrecision(18, 2);
+
+            builder.Property(sc => sc.Amount)
+                    .HasColumnType("int");
+
+            builder.HasOne<Car>(c => c.Car)
+                    .WithMany(c => c.Sales)
+                    .HasForeignKey(c => c.Id);
+
+            builder.HasOne<Sale>(s => s.Sale)
+                    .WithMany(c => c.Cars)
+                    .HasForeignKey(s => s.Id);
+
+            });
+        }
+    }
+}
