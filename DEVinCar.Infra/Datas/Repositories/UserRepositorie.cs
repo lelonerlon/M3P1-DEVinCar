@@ -1,5 +1,5 @@
 ﻿using DEVinCar.Domain.Models;
-using Escola.Domain.Interfaces.Repositories;
+using DEVinCar.Domain.Interfaces.Repositories;
 
 namespace DEVinCar.Infra.Datas.Repositories
 {
@@ -29,7 +29,7 @@ namespace DEVinCar.Infra.Datas.Repositories
             _context.SaveChanges();
         }
 
-        public User ObterPorId(int id)
+        public User GetById(int id)
         {
             return _context.Users.Find(id);
         }

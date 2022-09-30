@@ -1,8 +1,8 @@
 ﻿using DEVinCar.Domain.Models;
-using DEVinCar.Domain.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using DEVinCar.Domain.Interfaces.Services;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.EntityFrameworkCore;
 
 namespace DEVinCar.Domain.Controllers;
 
@@ -13,64 +13,43 @@ public class UserController : ControllerBase
 {
 
     private readonly IUserService _alunoService;
-private readonly IMemoryCache _cache;
+    private readonly ISaleService _saleService;
+    private readonly IMemoryCache _cache;
 
-public UserController(IUserService alunoService, IMemoryCache cache)
-{
-    _alunoService = alunoService;
-    _cache = cache;
-}
-/*
-[HttpGet]
-    public ActionResult<List<User>> Get(
-       [FromQuery] string Name,
-       [FromQuery] DateTime? birthDateMax,
-       [FromQuery] DateTime? birthDateMin
-   )
+public UserController(IUserService alunoService, IMemoryCache cache, ISaleService saleService)
     {
-        var query = _context.Users.AsQueryable();
-
-        if (!string.IsNullOrEmpty(Name))
-        {
-            query = query.Where(c => c.Name.Contains(Name));
-        }
-
-        if (birthDateMin.HasValue)
-        {
-            query = query.Where(c => c.BirthDate >= birthDateMin.Value);
-        }
-
-        if (birthDateMax.HasValue)
-        {
-            query = query.Where(c => c.BirthDate <= birthDateMax.Value);
-        }
-
-        if (!query.ToList().Any())
-        {
-            return NoContent();
-        }
-
-        return Ok(
-            query
-            .ToList()
-            );
-    }*/
-
-/*    [HttpGet("{id}")]
-    public ActionResult<User> GetById(
-        [FromRoute] int id
-    )
+        _alunoService = alunoService;
+        _cache = cache;
+        _saleService = saleService;
+    }
+    [HttpGet("{id}")]
+    public IActionResult GetUserById(
+      [FromRoute] int id)
     {
-        var user = _context.Users.Find(id);
-        if (user == null) return NotFound();
+        User user;
+
+
+        if (!_cache.TryGetValue<User>($"User:{id}", out user))
+        {
+            user = _alunoService.GetById(id);
+            _cache.Set<User>($"User:{id}", user, new TimeSpan(0, 2, 0));
+        }
         return Ok(user);
     }
 
     [HttpGet("{userId}/buy")]
-    public ActionResult<Sale> GetByIdbuy(
-       [FromRoute] int userId)
+    public IActionResult GetByIdBuy(
+    [FromRoute] int userId)
 
     {
+        User user;
+
+        if (!_cache.TryGetValue<User>($"User:{userId}", out user))
+        {
+            user = _saleService.GetById(userId);
+            _cache.Set<User>($"User:{userId}", user, new TimeSpan(0, 2, 0));
+        }
+
         var sales = _context.Sales.Where(s => s.BuyerId == userId);
 
         if (sales == null || sales.Count() == 0)
@@ -79,7 +58,44 @@ public UserController(IUserService alunoService, IMemoryCache cache)
         }
         return Ok(sales.ToList());
     }
+    /*
+    [HttpGet]
+        public ActionResult<List<User>> Get(
+           [FromQuery] string Name,
+           [FromQuery] DateTime? birthDateMax,
+           [FromQuery] DateTime? birthDateMin
+       )
+        {
+            var query = _context.Users.AsQueryable();
 
+            if (!string.IsNullOrEmpty(Name))
+            {
+                query = query.Where(c => c.Name.Contains(Name));
+            }
+
+            if (birthDateMin.HasValue)
+            {
+                query = query.Where(c => c.BirthDate >= birthDateMin.Value);
+            }
+
+            if (birthDateMax.HasValue)
+            {
+                query = query.Where(c => c.BirthDate <= birthDateMax.Value);
+            }
+
+            if (!query.ToList().Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(
+                query
+                .ToList()
+                );
+        }*/
+
+
+    /* 
     [HttpGet("{userId}/sales")]
     public ActionResult<Sale> GetSalesBySellerId(
        [FromRoute] int userId)

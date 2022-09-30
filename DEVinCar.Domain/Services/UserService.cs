@@ -1,4 +1,5 @@
 using DEVinCar.Domain.DTOs;
+using DEVinCar.Domain.Interfaces.Repositories;
 using DEVinCar.Domain.Interfaces.Services;
 using DEVinCar.Domain.Models;
 
@@ -6,10 +7,10 @@ namespace DEVinCar.Domain.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserService _alunoRepositorio;
-        public UserService(IUserService alunoRepositorio)
+        private readonly IUserRepositorie _userRepositorie;
+        public UserService(IUserRepositorie userRepositorie)
         {
-            _alunoRepositorio = alunoRepositorio;
+            _userRepositorie = userRepositorie;
         }
 
         public void Atualizar(User user)
@@ -32,9 +33,9 @@ namespace DEVinCar.Domain.Services
             throw new NotImplementedException();
         }
 
-        public User ObterPorId(int id)
+        public User GetById(int id)
         {
-            throw new NotImplementedException();
+            return _userRepositorie.GetById(id);
         }
 
         public IList<UserDTO> ObterTodos()
