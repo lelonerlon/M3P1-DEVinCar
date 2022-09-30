@@ -1,130 +1,132 @@
-﻿using DEVinCar.Api.Models;
-using DEVinCar.Api.Data;
-using DEVinCar.Api.DTOs;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using DEVinCar.Api.ViewModels;
+using DEVinCar.Domain.ViewModels;
+using Microsoft.Extensions.Caching.Memory;
+using DEVinCar.Domain.Interfaces.Services;
+using DEVinCar.Domain.Models;
 
-namespace DEVinCar.Api.Controllers;
+namespace DEVinCar.Domain.Controllers;
 
 [ApiController]
 [Route("api/address")]
 
 public class AddressesController : ControllerBase
 {
-    private readonly DevInCarDbContext _context;
+    private readonly IUserService _addressService;
+    private readonly IMemoryCache _cache;
 
-    public AddressesController(DevInCarDbContext context)
+    public AddressesController(IUserService addresService, IMemoryCache cache)
     {
-        _context = context;
+        _addressService = addresService;
+        _cache = cache;
     }
 
-    [HttpGet]
-    public ActionResult<List<AddressViewModel>> Get([FromQuery] int? cityId,
-                                                    [FromQuery] int? stateId,
-                                                    [FromQuery] string street,
-                                                    [FromQuery] string cep)
-    {
-        var query = _context.Addresses.AsQueryable();
+    /* [HttpGet]
+     public ActionResult<List<AddressViewModel>> Get([FromQuery] int? cityId,
+                                                     [FromQuery] int? stateId,
+                                                     [FromQuery] string street,
+                                                     [FromQuery] string cep)
+     {
+         var query = _userService.Addresses.AsQueryable();
 
-        if (cityId.HasValue)
+         if (cityId.HasValue)
+         {
+             query = query.Where(a => a.CityId == cityId);
+         }
+         if (stateId.HasValue)
+         {
+             query = query.Where(a => a.City.StateId == stateId);
+         }
+
+         if (!string.IsNullOrEmpty(street))
+         {
+             street = street.ToUpper();
+             query = query.Where(a => a.Street.Contains(street));
+         }
+
+         if (!string.IsNullOrEmpty(cep))
+         {
+             query = query.Where(a => a.Cep == cep);
+         }
+
+         if (!query.ToList().Any())
+         {
+             return NoContent();
+         }
+
+         List<AddressViewModel> addressesViewModel = new List<AddressViewModel>();
+         query
+             .Include(a => a.City)
+             .ToList().ForEach(address => {
+             addressesViewModel.Add(new AddressViewModel(address.Id,
+                                                         address.Street,
+                                                         address.CityId,
+                                                         address.City.Name,
+                                                         address.Number,
+                                                         address.Complement,
+                                                         address.Cep));
+         });
+         return Ok(addressesViewModel);
+
+     }*/
+    /*
+        [HttpPatch("{addressId}")]
+        public ActionResult<AddressViewModel> Patch([FromRoute] int addressId,
+                                           [FromBody] AddressPatchDTO addressPatchDTO)
         {
-            query = query.Where(a => a.CityId == cityId);
-        }
-        if (stateId.HasValue)
-        {
-            query = query.Where(a => a.City.StateId == stateId);
-        }
 
-        if (!string.IsNullOrEmpty(street))
-        {
-            street = street.ToUpper();
-            query = query.Where(a => a.Street.Contains(street));
-        }
+            Address address = _context.Addresses
+                                      .Include(a => a.City)
+                                      .FirstOrDefault(a => a.Id == addressId);
 
-        if (!string.IsNullOrEmpty(cep))
-        {
-            query = query.Where(a => a.Cep == cep);
-        }
+            if (address == null)
+                return NotFound($"The address with ID: {addressId} not found.");
 
-        if (!query.ToList().Any())
-        {
-            return NoContent();
-        }
+            string street = addressPatchDTO.Street ?? null;
+            string cep = addressPatchDTO.Cep ?? null;
+            string complement = addressPatchDTO.Complement ?? null;
 
-        List<AddressViewModel> addressesViewModel = new List<AddressViewModel>();
-        query
-            .Include(a => a.City)
-            .ToList().ForEach(address => {
-            addressesViewModel.Add(new AddressViewModel(address.Id,
-                                                        address.Street,
-                                                        address.CityId,
-                                                        address.City.Name,
-                                                        address.Number,
-                                                        address.Complement,
-                                                        address.Cep));
-        });
-        return Ok(addressesViewModel);
+            if (street != null)
+            {
+                if (addressPatchDTO.Street == "")
+                    return BadRequest("The street name cannot be empty.");
+                address.Street = street;
+            }
 
-    }
+            if (addressPatchDTO.Cep != null)
+            {
+                if (addressPatchDTO.Cep == "")
+                    return BadRequest("The cep cannot be empty.");
+                if (!addressPatchDTO.Cep.All(char.IsDigit))
+                    return BadRequest("Every characters in cep must be numeric.");
+                address.Cep = cep;
+            }
 
-    [HttpPatch("{addressId}")]
-    public ActionResult<AddressViewModel> Patch([FromRoute] int addressId,
-                                       [FromBody] AddressPatchDTO addressPatchDTO)
-    {
+            if (addressPatchDTO.Complement != null)
+            {
+                if (addressPatchDTO.Complement == "")
+                    return BadRequest("The complement cannot be empty.");
+                address.Complement = complement;
+            }
 
-        Address address = _context.Addresses
-                                  .Include(a => a.City)
-                                  .FirstOrDefault(a => a.Id == addressId);
+            if (addressPatchDTO.Number != 0)
+                address.Number = addressPatchDTO.Number;
 
-        if (address == null)
-            return NotFound($"The address with ID: {addressId} not found.");
+            _context.SaveChanges();
 
-        string street = addressPatchDTO.Street ?? null;
-        string cep = addressPatchDTO.Cep ?? null;
-        string complement = addressPatchDTO.Complement ?? null;
+            AddressViewModel addressViewModel = new AddressViewModel(
+                address.Id,
+                address.Street,
+                address.CityId,
+                address.City.Name,
+                address.Number,
+                address.Complement,
+                address.Cep
+            );
+            return Ok(addressViewModel);
+        }*/
 
-        if (street != null)
-        {
-            if (addressPatchDTO.Street == "")
-                return BadRequest("The street name cannot be empty.");
-            address.Street = street;
-        }
-
-        if (addressPatchDTO.Cep != null)
-        {
-            if (addressPatchDTO.Cep == "")
-                return BadRequest("The cep cannot be empty.");
-            if (!addressPatchDTO.Cep.All(char.IsDigit))
-                return BadRequest("Every characters in cep must be numeric.");
-            address.Cep = cep;
-        }
-
-        if (addressPatchDTO.Complement != null)
-        {
-            if (addressPatchDTO.Complement == "")
-                return BadRequest("The complement cannot be empty.");
-            address.Complement = complement;
-        }
-
-        if (addressPatchDTO.Number != 0)
-            address.Number = addressPatchDTO.Number;
-
-        _context.SaveChanges();
-
-        AddressViewModel addressViewModel = new AddressViewModel(
-            address.Id,
-            address.Street,
-            address.CityId,
-            address.City.Name,
-            address.Number,
-            address.Complement,
-            address.Cep
-        );
-        return Ok(addressViewModel);
-    }
-
-    [HttpDelete("{addressId}")]
+   /* [HttpDelete("{addressId}")]
 
     public ActionResult DeleteById([FromRoute] int addressId)
     {
@@ -146,5 +148,5 @@ public class AddressesController : ControllerBase
         _context.SaveChanges();
 
         return NoContent();
-    }
+    }*/
 }

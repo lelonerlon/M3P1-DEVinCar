@@ -1,23 +1,27 @@
-﻿using DEVinCar.Api.Models;
-using DEVinCar.Api.Data;
-using DEVinCar.Api.DTOs;
+﻿using DEVinCar.Domain.Models;
+using DEVinCar.Domain.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using DEVinCar.Domain.Interfaces.Services;
+using Microsoft.Extensions.Caching.Memory;
 
-namespace DEVinCar.Api.Controllers;
+namespace DEVinCar.Domain.Controllers;
 
 [ApiController]
 [Route("api/user")]
 
 public class UserController : ControllerBase
 {
-    private readonly DevInCarDbContext _context;
 
-    public UserController(DevInCarDbContext context)
-    {
-        _context = context;
-    }
+    private readonly IUserService _alunoService;
+private readonly IMemoryCache _cache;
 
-    [HttpGet]
+public UserController(IUserService alunoService, IMemoryCache cache)
+{
+    _alunoService = alunoService;
+    _cache = cache;
+}
+/*
+[HttpGet]
     public ActionResult<List<User>> Get(
        [FromQuery] string Name,
        [FromQuery] DateTime? birthDateMax,
@@ -50,9 +54,9 @@ public class UserController : ControllerBase
             query
             .ToList()
             );
-    }
+    }*/
 
-    [HttpGet("{id}")]
+/*    [HttpGet("{id}")]
     public ActionResult<User> GetById(
         [FromRoute] int id
     )
@@ -206,7 +210,7 @@ public class UserController : ControllerBase
         _context.SaveChanges();
 
         return NoContent();
-    }
+    }*/
 
 
 }

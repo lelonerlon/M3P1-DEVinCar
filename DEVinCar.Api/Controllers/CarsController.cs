@@ -1,16 +1,17 @@
 
-using DEVinCar.Api.Data;
-using DEVinCar.Api.DTOs;
-using DEVinCar.Api.Models;
+using DEVinCar.Domain.DTOs;
+using DEVinCar.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DEVinCar.Api.Controllers;
+namespace DEVinCar.Domain.Controllers;
+
 
 [ApiController]
 [Route("api/car")]
+
 public class CarController : ControllerBase
 {
-    private readonly DevInCarDbContext _context;
+   /* private readonly DevInCarDbContext _context;
 
     public CarController(DevInCarDbContext context)
     {
@@ -114,5 +115,5 @@ public class CarController : ControllerBase
 
         _context.SaveChanges();
         return NoContent();
-    }
+    }*/
 }

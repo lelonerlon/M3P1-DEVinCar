@@ -1,24 +1,23 @@
 ﻿using System.Linq;
-using DEVinCar.Api.Data;
-using DEVinCar.Api.DTOs;
-using DEVinCar.Api.Models;
+using DEVinCar.Domain.DTOs;
+using DEVinCar.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DEVinCar.Api.ViewModels;
+using DEVinCar.Domain.ViewModels;
 
-namespace DEVinCar.Api.Controllers;
+namespace DEVinCar.Domain.Controllers;
 
 [ApiController]
 [Route("api/sales")]
 public class SalesController : ControllerBase
 {
-    private readonly DevInCarDbContext _context;
+    /*private readonly DevInCarDbContext _context;
     public SalesController(DevInCarDbContext context)
     {
         _context = context;
-    }
+    }*/
 
-    [HttpGet("{saleId}")]
+    /*[HttpGet("{saleId}")]
     public ActionResult<SaleViewModel> GetItensSale(
         [FromRoute] int saleId)
     {
@@ -191,7 +190,7 @@ public class SalesController : ControllerBase
             return BadRequest(ex);
         }
 
-    }
+    }*/
 
 }
 

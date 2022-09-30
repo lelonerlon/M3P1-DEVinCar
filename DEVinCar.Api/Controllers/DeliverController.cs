@@ -1,23 +1,25 @@
-﻿using DEVinCar.Api.Models;
-using DEVinCar.Api.Data;
-using DEVinCar.Api.DTOs;
+﻿using DEVinCar.Domain.Models;
+using DEVinCar.Domain.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Runtime.ConstrainedExecution;
+using DEVinCar.Domain.Interfaces.Services;
+using Microsoft.Extensions.Caching.Memory;
 
-namespace DEVinCar.Api.Controllers
+namespace DEVinCar.Domain.Controllers
 {
     [ApiController]
     [Route("api/deliver")]
     public class DeliverController : ControllerBase
     {
-        private readonly DevInCarDbContext _context;
-        public DeliverController(DevInCarDbContext context)
+        private readonly IDeliveryService _deliveryService;
+        private readonly IMemoryCache _cache;
+        public DeliverController(IUserService deliveryService, IMemoryCache cache)
         {
-            _context = context;
+            _deliveryService = (IDeliveryService)deliveryService;
         }
 
-        [HttpGet]
+      /*  [HttpGet]
         public ActionResult<Delivery> Get(
         [FromQuery] int? addressId,
         [FromQuery] int? saleId)
@@ -41,7 +43,7 @@ namespace DEVinCar.Api.Controllers
 
             return Ok(query.ToList());
        
-        }
+        }*/
     }
 }
 

@@ -13,25 +13,21 @@ namespace DEVinCar.Infra.Datas.Mappings
     {
         public void Configure(EntityTypeBuilder<State> builder)
         {
+            builder.ToTable("States");
+            builder.HasKey(s => s.Id);
 
+            builder
+                .Property(s => s.Name)
+                .HasMaxLength(100)
+                .IsRequired();
 
-            modelBuilder.Entity<State>(builder =>
-            {
-                builder.ToTable("States");
-                builder.HasKey(s => s.Id);
+            builder
+                .Property(s => s.Initials)
+                .HasMaxLength(2)
+                .IsRequired();
 
-                builder
-                    .Property(s => s.Name)
-                    .HasMaxLength(100)
-                    .IsRequired();
-
-                builder
-                    .Property(s => s.Initials)
-                    .HasMaxLength(2)
-                    .IsRequired();
-
-                builder
-                    .HasData(new[] {
+            builder
+                .HasData(new[] {
                     new State (1, "Acre", "AC"),
                     new State (2, "Alagoas", "AL"),
                     new State (3, "Amapá", "AP"),
@@ -59,8 +55,7 @@ namespace DEVinCar.Infra.Datas.Mappings
                     new State (25, "São Paulo", "SP"),
                     new State (26, "Sergipe", "SE"),
                     new State (27, "Tocantins", "TO")
-             });
-            });
+                 });                
         }
     }
 }

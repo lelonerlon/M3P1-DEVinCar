@@ -4,10 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DEVinCar.Api", "DEVinCar.Api\DEVinCar.Api.csproj", "{D9A76EEA-9C5C-4B22-ADEB-E2A96183A822}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A667291C-993D-4CB8-BA9E-C54C7B00723D} = {A667291C-993D-4CB8-BA9E-C54C7B00723D}
+		{F79F16C3-A0EB-4CD6-B680-F5B6C45436DB} = {F79F16C3-A0EB-4CD6-B680-F5B6C45436DB}
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DEVinCar.Domain", "DEVinCar.Domain\DEVinCar.Domain.csproj", "{AEC4C165-1197-497B-9022-B14B840CF8BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DEVinCar.Infra", "DEVinCar.Infra\DEVinCar.Infra.csproj", "{A667291C-993D-4CB8-BA9E-C54C7B00723D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DEVinCar.Infra", "DEVinCar.Infra\DEVinCar.Infra.csproj", "{A667291C-993D-4CB8-BA9E-C54C7B00723D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DEVinCar.Domain", "DEVinCar.Domain\DEVinCar.Domain.csproj", "{F79F16C3-A0EB-4CD6-B680-F5B6C45436DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +23,14 @@ Global
 		{D9A76EEA-9C5C-4B22-ADEB-E2A96183A822}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9A76EEA-9C5C-4B22-ADEB-E2A96183A822}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9A76EEA-9C5C-4B22-ADEB-E2A96183A822}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AEC4C165-1197-497B-9022-B14B840CF8BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AEC4C165-1197-497B-9022-B14B840CF8BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AEC4C165-1197-497B-9022-B14B840CF8BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AEC4C165-1197-497B-9022-B14B840CF8BA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A667291C-993D-4CB8-BA9E-C54C7B00723D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A667291C-993D-4CB8-BA9E-C54C7B00723D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A667291C-993D-4CB8-BA9E-C54C7B00723D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A667291C-993D-4CB8-BA9E-C54C7B00723D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F79F16C3-A0EB-4CD6-B680-F5B6C45436DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F79F16C3-A0EB-4CD6-B680-F5B6C45436DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F79F16C3-A0EB-4CD6-B680-F5B6C45436DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F79F16C3-A0EB-4CD6-B680-F5B6C45436DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

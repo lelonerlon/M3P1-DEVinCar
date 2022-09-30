@@ -1,6 +1,7 @@
 ﻿using DEVinCar.Domain.Models;
 
-namespace DEVinCar.Domain.ViewModels {
+namespace DEVinCar.Domain.ViewModels 
+{
     public class AddressViewModel {
         public int Id { get; set; }
         public int CityId { get; set; }

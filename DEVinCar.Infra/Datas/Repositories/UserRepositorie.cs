@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DEVinCar.Domain.Interfaces.Repositories;
-using DEVinCar.Domain.Models;
+﻿using DEVinCar.Domain.Models;
+using Escola.Domain.Interfaces.Repositories;
 
 namespace DEVinCar.Infra.Datas.Repositories
 {
@@ -17,35 +13,30 @@ namespace DEVinCar.Infra.Datas.Repositories
 
         public void Atualizar(User user)
         {
-            _contexto.Alunos.Update(user);
-            _contexto.SaveChanges();
+            _context.Users.Update(user);
+            _context.SaveChanges();
         }
 
-        public void Excluir(User aluno)
+        public void Excluir(User user)
         {
-            _contexto.Alunos.Remove(aluno);
-            _contexto.SaveChanges();
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+        }
+                
+        public void Inserir(User user)
+        {
+            _context.Users.Add(user);
+            _context.SaveChanges();
         }
 
-        public bool ExisteMatricula(int matricula)
+        public User ObterPorId(int id)
         {
-            return _contexto.Alunos.Any(x => x.Matricula == matricula);
+            return _context.Users.Find(id);
         }
 
-        public void Inserir(User aluno)
+        public IList<User> ObterTodos()
         {
-            _contexto.User.Add(aluno);
-            _contexto.SaveChanges();
-        }
-
-        public Aluno ObterPorId(int id)
-        {
-            return _contexto.User.Find(id);
-        }
-
-        public IList<Aluno> ObterTodos()
-        {
-            return _contexto.User.ToList();
+            return _context.Users.ToList();
         }
     }
 }
