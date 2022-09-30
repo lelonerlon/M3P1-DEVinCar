@@ -1,10 +1,8 @@
-using System.Runtime.Serialization;
 using DEVinCar.Domain.Models;
 using DEVinCar.Infra.Datas.Mappings;
 using Microsoft.EntityFrameworkCore;
 
-
-namespace DEVinCar.Infra.Datas.;
+namespace DEVinCar.Infra.Datas;
 
 public class DevInCarDbContext : DbContext
 {     
@@ -25,11 +23,10 @@ public class DevInCarDbContext : DbContext
     public DbSet<Address> Addresses { get; set; }
 
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        base.OnConfiguring(optionsBuilder);
-
-        optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=BD_DEVINCAR;Trusted_Connection=True;");
+        base.OnConfiguring(options);
+        options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=BD_DEVINCAR;Trusted_Connection=True;");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

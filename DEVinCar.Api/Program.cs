@@ -1,12 +1,11 @@
-using System.Text.Json.Serialization;
-using DEVinCar.Api.Data;
+using DEVinCar.Infra.Datas;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<>();
+builder.Services.AddDbContext<DevInCarDbContext>();
 
 var app = builder.Build();
 

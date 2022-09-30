@@ -13,8 +13,6 @@ namespace DEVinCar.Infra.Datas.Mappings
     {
         public void Configure(EntityTypeBuilder<City> builder)
         {
-            modelBuilder.Entity<City>(builder =>
-        {
             builder.ToTable("Cities");
             
             builder.HasKey(a => a.Id);
@@ -34,6 +32,6 @@ namespace DEVinCar.Infra.Datas.Mappings
                 .HasForeignKey(city => city.StateId)
                 .IsRequired();
 
-        });
+        }
     }
 }

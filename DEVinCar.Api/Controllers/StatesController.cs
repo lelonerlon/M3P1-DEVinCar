@@ -1,17 +1,16 @@
-﻿using DEVinCar.Api.Models;
-using DEVinCar.Api.Data;
-using DEVinCar.Api.DTOs;
-using DEVinCar.Api.ViewModels;
+﻿using DEVinCar.Domain.Models;
+using DEVinCar.Domain.DTOs;
+using DEVinCar.Domain.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DEVinCar.Api.Controllers;
+namespace DEVinCar.Domain.Controllers;
 
 [ApiController]
 [Route("api/state")]
 public class StatesController : ControllerBase
 {
-    private readonly DevInCarDbContext _context;
+    /*private readonly DevInCarDbContext _context;
 
     public StatesController(DevInCarDbContext context)
     {
@@ -131,18 +130,21 @@ public class StatesController : ControllerBase
             filterState.Name,
             filterState.Initials
             );
-       
+
         return Ok(response);
     }
 
     [HttpGet]
-    public ActionResult<List<GetStateViewModel>> Get([FromQuery] string name) {
+    public ActionResult<List<GetStateViewModel>> Get([FromQuery] string name)
+    {
         var query = _context.States.AsQueryable();
 
-        if(!string.IsNullOrEmpty(name)) {
+        if (!string.IsNullOrEmpty(name))
+        {
             query = query.Where(s => s.Name.ToUpper().Contains(name.ToUpper()));
         }
-        if(query.Any()) {
+        if (query.Any())
+        {
             List<GetStateViewModel> getStateViewModels = new List<GetStateViewModel>();
             query
                 .Include(s => s.Cities)
@@ -166,12 +168,12 @@ public class StatesController : ControllerBase
         [FromRoute] int stateId,
         [FromQuery] string? name
        )
-    
+
     {
         var state = _context.States.Find(stateId);
         var cityStates = _context.Cities.Where(c => c.StateId == state.Id);
-        
-        
+
+
         if (state == null)
             return NotFound("State not found.");
 
@@ -187,27 +189,28 @@ public class StatesController : ControllerBase
 
             var queryResponse = cityQuery
                 .Select(c => new GetCityByIdViewModel(
-                    c.Id, 
-                    c.Name, 
-                    c.State.Id, 
-                    c.State.Name, 
+                    c.Id,
+                    c.Name,
+                    c.State.Id,
+                    c.State.Name,
                     c.State.Initials))
                 .ToList();
 
             return Ok(queryResponse);
 
         }
-        
-         
+
+
         if (cityStates.Count() == 0)
         {
             return NoContent();
         }
 
-        
+
         List<GetCityByIdViewModel> body = new();
         cityStates.ToList().ForEach(
-            c => {
+            c =>
+            {
                 body.Add(new GetCityByIdViewModel(
                     c.Id,
                     c.Name,
@@ -215,13 +218,13 @@ public class StatesController : ControllerBase
                     c.State.Name,
                     c.State.Initials
                     ));
-                                
+
             }
             );
 
         return Ok(body);
 
-    }
+    }*/
 
 }
 

@@ -9,18 +9,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DEVinCar.Infra.Datas.Mappings
 {
-    public class SaleMap : IEntityTypeConfiguration<Sales>
+    public class SaleMap : IEntityTypeConfiguration<Sale>
     {
-        public void Configure(EntityTypeBuilder<Sales> builder)
-        {
-            modelBuilder.Entity<Sales>(entity =>
-            {
+        public void Configure(EntityTypeBuilder<Sale> builder)
+        {            
                 builder.ToTable("Sales");
 
                 builder.HasKey(s => s.Id);
 
                 builder.Property(s => s.Id)
-                        .HasColumnType("int");
+                       .HasColumnType("int");
 
                 builder.Property(s => s.SaleDate);
 
@@ -31,7 +29,7 @@ namespace DEVinCar.Infra.Datas.Mappings
                 builder.HasOne(u => u.UserSeller)
                         .WithMany()
                         .HasForeignKey(u => u.SellerId);
-            });
+            
         }
     }
 }

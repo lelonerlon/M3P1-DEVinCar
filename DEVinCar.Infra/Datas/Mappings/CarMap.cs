@@ -13,8 +13,6 @@ namespace DEVinCar.Infra.Datas.Mappings
     {
         public void Configure(EntityTypeBuilder<Car> builder)
         {
-            modelBuilder.Entity<Car>(builder =>
-        {
             builder.ToTable("Cars");
 
             builder.HasKey(c => c.Id);
@@ -38,6 +36,6 @@ namespace DEVinCar.Infra.Datas.Mappings
                     new Car (9, "Mustang Ford", 70000M),
                     new Car (10, "Belina Ford", 20000M)
                 });
-        });
+        }
     }
 }

@@ -9,14 +9,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DEVinCar.Infra.Datas.Mappings
 {
-	public class Address : IEntityTypeConfiguration<Address>
+	public class AddressMap : IEntityTypeConfiguration<Address>
 	{
 		public void Configure(EntityTypeBuilder<Address> builder)
 		{
-
-			modelBuilder.Entity<Address>(builder =>
-			{
-				builder.ToTable("Addresses");
+			
+				builder.ToTable("Address");
 
 				builder.HasKey(d => d.Id);
 
@@ -33,7 +31,7 @@ namespace DEVinCar.Infra.Datas.Mappings
 				builder.HasOne<City>(address => address.City)
 					.WithMany(d => d.Addresses)
 					.HasForeignKey(address => address.CityId);
-			});
+			
 		}
     }
 }
